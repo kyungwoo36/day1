@@ -1,0 +1,2 @@
+# TraversalwithStack
+![](./stacktree.png)
