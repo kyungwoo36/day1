@@ -1,41 +1,36 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int ArrayTree[16] = { 0,1,2,7,3,6,8,9,4,5,0,0,0,0,10,11 };
-
-void Array_preorder(int i) {
-	if (i && ArrayTree[i] != 0) {
-		printf("%d ", ArrayTree[i]);
-		Array_preorder(2 * i);
-		Array_preorder(2 * i + 1);
-	}
-}
-
-void Array_inorder(int i) {
-	if (i && ArrayTree[i] != 0) {
-		Array_inorder(2 * i);
-		printf("%d ", ArrayTree[i]);
-		Array_inorder(2 * i + 1);
-	}
-}
-
-void Array_postorder(int i) {
-	if (i && ArrayTree[i] != 0) {
-		Array_postorder(2 * i);
-		Array_postorder(2 * i + 1);
-		printf("%d ", ArrayTree[i]);
-	}
-}
-
 typedef struct TreeNode{
 	int key;
 	struct TreeNode* left, * right;
 }TreeNode;
 
+TreeNode n1 = { 25,NULL,NULL };
+TreeNode n2 = { 16,NULL ,&n1 };
+TreeNode n3 = { 42,NULL ,NULL };
+TreeNode n4 = { 46,&n3,NULL };
+TreeNode n5 = { 55,NULL ,NULL };
+TreeNode n6 = { 53, &n4,&n5 };
+TreeNode n7 = { 41,&n2, &n6 };
+
+TreeNode n8 = { 62,NULL ,NULL };
+TreeNode n9 = { 64,NULL ,NULL };
+TreeNode n10 = { 63,&n8,&n9 };
+TreeNode n11 = { 70,NULL ,NULL };
+TreeNode n12 = { 65,&n10,&n11 };
+TreeNode n13 = { 74,&n12,NULL };
+TreeNode n14 = { 60,&n7,&n13 };
+TreeNode* root = &n14;
+
 TreeNode* search(TreeNode* node, int key)
 {
+	int i;
 	while (node != NULL) {
-		if (key == node->key) return node;
+		if (key == node->key) {
+			i++;
+			return node;
+		}
 		else if (key < node->key)
 			node = node->left;
 		else
@@ -47,19 +42,20 @@ TreeNode* search(TreeNode* node, int key)
 
 int main(void)
 {
+	//char input;
+	//switch (input)
+	//{
+	//case 's':
+	//case 'i':
+	//case 'd':
+	//case 't':
+	//case 'I':
+	//case 'D':
+	//default:
+	//	break;
+	//}
 
-	printf("Traversal with Stack\n");
-	printf("1. 전위 순회\n");
-	Array_preorder(1);
-	printf("\n\n");
-
-	printf("2. 중위 순회\n");
-	Array_inorder(1);
-	printf("\n\n");
-
-	printf("3. 후위 순회\n");
-	Array_postorder(1);
-	printf("\n\n");
+	search(root, 25);
 
 	return 0;
 }
