@@ -124,7 +124,7 @@ int main(void)
     {
     case 's':
         printf("검색할 값 입력: ");
-        scanf_s("%d", snum);
+        scanf_s("%d", &snum);
         search(root, snum);
         break;
     case 'i':
