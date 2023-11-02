@@ -101,7 +101,7 @@ int main(void)
 	g = (GraphType*)malloc(sizeof(GraphType));
 	graph_init(g);
 
-	/*insert_edge(g, 1, 2, 3);
+	insert_edge(g, 1, 2, 3);
 	insert_edge(g, 1, 6, 11);
 	insert_edge(g, 1, 7, 12);
 	insert_edge(g, 2, 6, 7);
@@ -120,16 +120,8 @@ int main(void)
 	insert_edge(g, 5, 10, 10);
 	insert_edge(g, 7, 8, 13);
 	insert_edge(g, 8, 10, 15);
-	insert_edge(g, 9, 10, 10);*/
-	insert_edge(g, 0, 1, 29);
-	insert_edge(g, 1, 2, 16);
-	insert_edge(g, 2, 3, 12);
-	insert_edge(g, 3, 4, 22);
-	insert_edge(g, 4, 5, 27);
-	insert_edge(g, 5, 0, 10);
-	insert_edge(g, 6, 1, 15);
-	insert_edge(g, 6, 3, 18);
-	insert_edge(g, 6, 4, 25);
+	insert_edge(g, 9, 10, 10);
+
 
 
 	kruskal(g);
