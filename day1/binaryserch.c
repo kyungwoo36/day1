@@ -50,9 +50,6 @@ void prim(GraphType* g, int s)
 
 int main(void)
 {
-	GraphType* g;
-	g = (GraphType*)malloc(sizeof(GraphType));
-	graph_init(g);
 
 	GraphType g = { 10,
 	{{ 0, 3, INF, INF, INF, 11, 12, INF, INF, INF },
