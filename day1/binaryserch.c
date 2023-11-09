@@ -1,69 +1,83 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #define TRUE 1
 #define FALSE 0
-#define MAX_VERTICES 100
-#define INF 1000L
+#define MAX_VERTICES	100	
+#define INF	1000000	/* 무한대 (연결이 없는 경우) */
 
 typedef struct GraphType {
 	int n;	// 정점의 개수
 	int weight[MAX_VERTICES][MAX_VERTICES];
 } GraphType;
 
-int selected[MAX_VERTICES];
-int distance[MAX_VERTICES];
+int distance[MAX_VERTICES];/* 시작정점으로부터의 최단경로 거리 */
+int found[MAX_VERTICES];		/* 방문한 정점 표시 */
 
-// 최소 dist[v] 값을 갖는 정점을 반환
-int get_min_vertex(int n)
+int choose(int distance[], int n, int found[])
 {
-	int v, i;
+	int i, min, minpos;
+	min = INT_MAX;
+	minpos = -1;
 	for (i = 0; i < n; i++)
-		if (!selected[i]) {
-			v = i;
-			break;
+		if (distance[i] < min && !found[i]) {
+			min = distance[i];
+			minpos = i;
 		}
-	for (i = 0; i < n; i++)
-		if (!selected[i] && (distance[i] < distance[v])) v = i;
-	return (v);
+	return minpos;
 }
 
-void prim(GraphType* g, int s)
+void print_status(GraphType* g)
 {
-	int i, u, v;
+	printf("Distance: ");
+	for (int i = 0; i < g->n; i++) {
+		if (distance[i] == INF)
+			printf(" * ");
+		else
+			printf("%2d ", distance[i]);
+	}
+	printf("\n");
+	printf("   Found: ");
+	for (int i = 0; i < g->n; i++)
+		printf("%2d ", found[i]);
+	printf("\n\n");
+}
 
-	for (u = 0; u<g->n; u++)
-		distance[u] = INF;
-	distance[s] = 0;
-	for (i = 0; i < g->n; i++) {
-		u = get_min_vertex(g->n);
-		selected[u] = TRUE;
-		if (distance[u] == INF) return;
-		printf("정점 %d 추가\n", u+1);
-		for (v = 0; v < g->n; v++)
-			if (g->weight[u][v] != INF)
-				if (!selected[v] && g->weight[u][v] < distance[v])
-					distance[v] = g->weight[u][v];
+//
+void shortest_path(GraphType* g, int start)
+{
+	int i, u, w;
+	for (i = 0; i < g->n; i++) /* 초기화 */
+	{
+		distance[i] = g->weight[start][i];
+		found[i] = FALSE;
+	}
+	found[start] = TRUE;    /* 시작 정점 방문 표시 */
+	distance[start] = 0;
+	for (i = 0; i < g->n - 1; i++) {
+		print_status(g);
+		u = choose(distance, g->n, found);
+		found[u] = TRUE;
+		for (w = 0; w < g->n; w++)
+			if (!found[w])
+				if (distance[u] + g->weight[u][w] < distance[w])
+					distance[w] = distance[u] + g->weight[u][w];
 	}
 }
 
-
 int main(void)
 {
-
-	GraphType g = { 10,
-	{{ 0, 3, INF, INF, INF, 11, 12, INF, INF, INF },
-	{ 3,  0, 5, 4, 1, 7, 8, INF, INF, INF },
-	{ INF, 5, 0, 2, INF, INF, 6, 5, INF, INF },
-	{ INF, 4, 2, 0, 13, INF, INF, 14, INF, 16 },
-	{ INF, 1, INF, 13, 0, 9, INF, INF, 18, 17 },
-	{ 11, 7, INF, INF, 9, 0, INF, INF, INF, INF },
-	{ 12, 8, 6, INF, INF, INF, 0, 13, INF, INF },
-	{ INF, INF, 5, 14, INF, INF, 13, 0, INF, 15 },
-	{ INF, INF, INF, INF, 18, INF, INF, INF, 0, 10 },
-	{ INF, INF, INF, 16, INF, INF, INF, 15, 10, 0 } }
+	GraphType g = { 7,
+	{{ 0,  7,  INF, INF,   3,  10, INF },
+	{ 7,  0,    4,  10,   2,   6, INF },
+	{ INF,  4,    0,   2, INF, INF, INF },
+	{ INF, 10,    2,   0,  11,   9,   4 },
+	{ 3,  2,  INF,  11,   0, INF,   5 },
+	{ 10,  6,  INF,   9, INF,   0, INF },
+	{ INF, INF, INF,   4,   5, INF,   0 } }
 	};
-	prim(&g, 0);
+	shortest_path(&g, 0);
 	return 0;
 }
 
