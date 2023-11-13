@@ -4,13 +4,14 @@
 #define TRUE 1
 #define FALSE 0
 #define MAX_VERTICES 100
-#define INF 1000L
+#define INF 1000L //무한
 
 typedef struct GraphType {
 	int n;	// 정점의 개수
 	int weight[MAX_VERTICES][MAX_VERTICES];
 } GraphType;
 
+//행렬
 int selected[MAX_VERTICES];
 int distance[MAX_VERTICES];
 
