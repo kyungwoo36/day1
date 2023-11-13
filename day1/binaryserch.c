@@ -63,6 +63,7 @@ int main(void)
 	{ INF, INF, INF, INF, 18, INF, INF, INF, 0, 10 },
 	{ INF, INF, INF, 16, INF, INF, INF, 15, 10, 0 } }
 	};
+	printf("Prim MST Algorithm\n");
 	prim(&g, 0);
 	return 0;
 }
